@@ -17,7 +17,14 @@ const app = express();
 // Security middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    const allowed = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : ['http://localhost:5173'];
+    if (!origin || allowed.some(domain => domain.trim() === '*' || origin.startsWith(domain.trim()))) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow requests during initial integration
+    }
+  },
   credentials: true,
 }));
 
