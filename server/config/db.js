@@ -7,7 +7,7 @@ const connectDB = async () => {
     return;
   }
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb+srv://sooryaprakashrnp_db_user:FioUFZeRNcOJmxqv@crcluster0.qsjbkzj.mongodb.net/complaint_db?retryWrites=true&w=majority';
+    const mongoUri = process.env.MONGO_URI || 'mongodb+srv://sooryaprakashrnp_db_user:FioUFZeRNcOJmxqv@crcluster0.qsjbkzj.mongodb.net/complaint_db?appName=CRCluster0&retryWrites=true&w=majority';
     const conn = await mongoose.connect(mongoUri);
     isConnected = true;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
