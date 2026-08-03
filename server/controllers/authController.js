@@ -4,9 +4,9 @@ const { validationResult } = require('express-validator');
 
 // Generate JWT Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+  const secret = process.env.JWT_SECRET || 'complaint_system_jwt_secret_key_2024';
+  const expiresIn = process.env.JWT_EXPIRE || '7d';
+  return jwt.sign({ id }, secret, { expiresIn });
 };
 
 // @desc    Register new user

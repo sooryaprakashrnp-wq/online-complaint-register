@@ -7,7 +7,8 @@ const connectDB = async () => {
     return;
   }
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/complaint_db');
+    const mongoUri = process.env.MONGO_URI || 'mongodb+srv://sooryaprakashrnp_db_user:FioUFZeRNcOJmxqv@crcluster0.qsjbkzj.mongodb.net/complaint_db?retryWrites=true&w=majority';
+    const conn = await mongoose.connect(mongoUri);
     isConnected = true;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
