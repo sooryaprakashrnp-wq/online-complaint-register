@@ -24,7 +24,7 @@ const seedData = async () => {
     {
       name: 'Admin User',
       email: 'admin@demo.com',
-      password: await bcrypt.hash('admin123', salt),
+      password: 'admin123',
       role: 'ADMIN',
       phone: '+91 9000000001',
       isActive: true,
@@ -32,7 +32,7 @@ const seedData = async () => {
     {
       name: 'Agent One',
       email: 'agent@demo.com',
-      password: await bcrypt.hash('agent123', salt),
+      password: 'agent123',
       role: 'AGENT',
       phone: '+91 9000000002',
       isActive: true,
@@ -40,7 +40,7 @@ const seedData = async () => {
     {
       name: 'Agent Two',
       email: 'agent2@demo.com',
-      password: await bcrypt.hash('agent123', salt),
+      password: 'agent123',
       role: 'AGENT',
       phone: '+91 9000000003',
       isActive: true,
@@ -48,7 +48,7 @@ const seedData = async () => {
     {
       name: 'Soorya Prakash',
       email: 'user@demo.com',
-      password: await bcrypt.hash('user123', salt),
+      password: 'user123',
       role: 'USER',
       phone: '+91 9000000004',
       isActive: true,
@@ -56,7 +56,7 @@ const seedData = async () => {
     {
       name: 'Demo User 2',
       email: 'user2@demo.com',
-      password: await bcrypt.hash('user123', salt),
+      password: 'user123',
       role: 'USER',
       phone: '+91 9000000005',
       isActive: true,
