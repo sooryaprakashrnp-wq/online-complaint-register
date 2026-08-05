@@ -20,15 +20,15 @@ app.use(async (req, res, next) => {
   }
 });
 
-// API Routes
-app.use('/api/auth', require('../server/routes/authRoutes'));
-app.use('/api/complaints', require('../server/routes/complaintRoutes'));
-app.use('/api/agents', require('../server/routes/agentRoutes'));
-app.use('/api/feedback', require('../server/routes/feedbackRoutes'));
-app.use('/api/admin', require('../server/routes/adminRoutes'));
+// API Routes (handling both with and without /api prefix)
+app.use(['/api/auth', '/auth'], require('../server/routes/authRoutes'));
+app.use(['/api/complaints', '/complaints'], require('../server/routes/complaintRoutes'));
+app.use(['/api/agents', '/agents'], require('../server/routes/agentRoutes'));
+app.use(['/api/feedback', '/feedback'], require('../server/routes/feedbackRoutes'));
+app.use(['/api/admin', '/admin'], require('../server/routes/adminRoutes'));
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({ success: true, message: '🚀 Complaint System API is running on Vercel Serverless' });
 });
 
