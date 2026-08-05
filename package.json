@@ -4,7 +4,7 @@
   "description": "Online Complaint Registration and Management System",
   "main": "api/index.js",
   "scripts": {
-    "build": "npm install --prefix client && npm run build --prefix client",
+    "build": "cd client && npm install && npm run build && cd .. && mkdir -p dist && cp -r client/dist/* dist/",
     "start": "node api/index.js"
   },
   "dependencies": {
