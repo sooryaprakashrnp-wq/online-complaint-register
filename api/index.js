@@ -37,5 +37,8 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: `API route ${req.originalUrl} not found` });
 });
 
+// Global Error Handler
+app.use(require('../server/middleware/errorHandler'));
+
 module.exports = app;
 
