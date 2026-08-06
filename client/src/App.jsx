@@ -9,6 +9,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 
+import SplashScreen from './components/SplashScreen';
+
 // Pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/Auth/LoginPage';
@@ -36,7 +38,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={user ? <Navigate to={user.role === 'ADMIN' ? '/admin/dashboard' : user.role === 'AGENT' ? '/agent/dashboard' : '/dashboard'} /> : <Navigate to="/login" />} />
+      <Route path="/" element={user ? <Navigate to={user.role === 'ADMIN' ? '/admin/dashboard' : user.role === 'AGENT' ? '/agent/dashboard' : '/dashboard'} /> : <SplashScreen />} />
+      <Route path="/splash" element={<SplashScreen />} />
       <Route path="/login" element={user ? <Navigate to={user.role === 'ADMIN' ? '/admin/dashboard' : user.role === 'AGENT' ? '/agent/dashboard' : '/dashboard'} /> : <LoginPage />} />
       <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <RegisterPage />} />
 
