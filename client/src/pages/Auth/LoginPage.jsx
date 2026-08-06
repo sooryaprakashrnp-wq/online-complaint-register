@@ -40,7 +40,13 @@ const LoginPage = () => {
             <div className="auth-card card">
               <div className="card-body p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <h2 className="auth-title">Sign In</h2>
+                  <div className="brand-logo-badge mb-3 d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle shadow-sm" style={{ width: '64px', height: '64px', fontSize: '32px' }}>
+                    🎯
+                  </div>
+                  <h3 className="fw-bold mb-1" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    ComplaintHub
+                  </h3>
+                  <h4 className="auth-title h5 mt-2">Sign In</h4>
                   <p className="text-muted small">Access your ComplaintHub account</p>
                 </div>
 
