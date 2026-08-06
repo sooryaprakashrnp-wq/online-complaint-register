@@ -1,4 +1,4 @@
-# 📄 FORMAL TECHNICAL PROJECT REPORT
+#  PROJECT REPORT
 ## **PROJECT TITLE: ComplaintHub - Enterprise Online Complaint Registration & Management System**
 
 ---
