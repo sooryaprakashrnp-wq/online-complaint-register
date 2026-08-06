@@ -63,7 +63,7 @@ const login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password (user not found)' });
     }
 
     if (!user.isActive) {
@@ -72,7 +72,7 @@ const login = async (req, res, next) => {
 
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password (password mismatch)' });
     }
 
     const token = generateToken(user._id);
