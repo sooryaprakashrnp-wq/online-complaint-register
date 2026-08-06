@@ -4,7 +4,8 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "start": "cross-env MEMORY_DB=true node startWithMemoryDB.js",
+        "start": "node server.js",
+        "start:memory": "cross-env MEMORY_DB=true node startWithMemoryDB.js",
         "dev": "cross-env MEMORY_DB=true nodemon startWithMemoryDB.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
