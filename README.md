@@ -1,58 +1,98 @@
-# 🎯 ComplaintHub - Online Complaint Registration & Management System
-
-> A modern, full-stack enterprise complaint management web application built with **React (Vite), Node.js, Express, MongoDB Atlas**, and deployed 100% serverless on **Vercel**.
-
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://online-complaint-register-six.vercel.app)
-[![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://cloud.mongodb.com)
-[![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+# 📄 FORMAL TECHNICAL PROJECT REPORT
+## **PROJECT TITLE: ComplaintHub - Enterprise Online Complaint Registration & Management System**
 
 ---
 
-## 🌟 Demo Credentials & Links
-
-### 🔗 Live Production URLs
-- **Live Web Application**: [https://online-complaint-register-six.vercel.app](https://online-complaint-register-six.vercel.app)
-- **GitHub Repository**: [https://github.com/sooryaprakashrnp-wq/online-complaint-register](https://github.com/sooryaprakashrnp-wq/online-complaint-register)
-
-### 🧪 Pre-seeded Demo Credentials
-| Role | Email | Password | Dashboard Features |
-| --- | --- | --- | --- |
-| 🛡️ **Admin** | `admin@demo.com` | `admin123` | Analytics, User Management, Ticket Overrides |
-| 🎧 **Agent** | `agent@demo.com` | `agent123` | Ticket Queue, Status Updates, Internal Response |
-| 👤 **User** | `user@demo.com` | `user123` | Create Complaint, Live Track, Feedback & Ratings |
+### **DOCUMENT CONTROL**
+- **Project Name**: ComplaintHub (Online Complaint Register)
+- **Version**: 1.0.0
+- **Deployment Platform**: Vercel Cloud Serverless
+- **Database Backend**: MongoDB Atlas Cluster
+- **Live Production URL**: [https://online-complaint-register-six.vercel.app](https://online-complaint-register-six.vercel.app)
+- **Source Code Repository**: [https://github.com/sooryaprakashrnp-wq/online-complaint-register](https://github.com/sooryaprakashrnp-wq/online-complaint-register)
 
 ---
 
-## 1. 🏗️ Project Architecture & Design System
+## 📌 TABLE OF CONTENTS
+1. [Executive Summary](#1-executive-summary)
+2. [Project Objectives & Scope](#2-project-objectives--scope)
+3. [System Architecture & Design](#3-system-architecture--design)
+   - 3.1 [High-Level Architecture](#31-high-level-architecture)
+   - 3.2 [Entity-Relationship (ER) Diagram](#32-entity-relationship-er-diagram)
+   - 3.3 [Model-View-Controller (MVC) Pattern](#33-model-view-controller-mvc-pattern)
+4. [Roles & Responsibility Matrix](#4-roles--responsibility-matrix)
+5. [User Flow & Operational Sequences](#5-user-flow--operational-sequences)
+6. [Folder Structure & Codebase Layout](#6-folder-structure--codebase-layout)
+7. [Backend Server & Security Implementation](#7-backend-server--security-implementation)
+8. [Database Schema & Data Model](#8-database-schema--data-model)
+9. [Frontend Design System & UX Features](#9-frontend-design-system--ux-features)
+10. [Future System Enhancements & Extension Roadmap](#10-future-system-enhancements--extension-roadmap)
+11. [Verification & Demonstration Links](#11-verification--demonstration-links)
 
-### 🏛️ System Architecture Diagram
+---
+
+## 1. EXECUTIVE SUMMARY
+
+**ComplaintHub** is a web-based enterprise complaint management platform designed to streamline issue reporting, agent ticket assignment, real-time status tracking, and customer feedback collection.
+
+Built using modern web technologies—**React 19 (Vite)** on the frontend, **Node.js with Express** on the backend, and **MongoDB Atlas** for cloud data persistence—the entire application is deployed as a single unified serverless project on **Vercel**.
+
+Key achievements:
+- Zero-latency page transitions with React Single Page Application (SPA) architecture.
+- Full Role-Based Access Control (RBAC) supporting **Users**, **Support Agents**, and **System Administrators**.
+- Integrated **2-second Animated Logo Splash Screen** upon initial user arrival.
+- End-to-end ticket lifecycle management with interactive messaging and star-rating feedback loops.
+
+---
+
+## 2. PROJECT OBJECTIVES & SCOPE
+
+### **Objectives**
+1. **Automation**: Replace manual complaint logging with automated digital ticket creation.
+2. **Transparency**: Provide users with transparent, real-time status updates (`Pending` ➔ `Assigned` ➔ `In Progress` ➔ `Resolved` ➔ `Closed`).
+3. **Efficiency**: Enable support agents to quickly pick up, communicate on, and resolve tickets.
+4. **Analytics**: Deliver administrative dashboards to evaluate support efficiency, priority distribution, and category trends.
+
+### **Scope**
+- Responsive web client accessible on mobile, tablet, and desktop viewports.
+- Secure authentication utilizing JWT (JSON Web Tokens) and salted `bcrypt` password hashing.
+- Complete CRUD operations for complaints, agent assignments, and customer feedback reviews.
+
+---
+
+## 3. SYSTEM ARCHITECTURE & DESIGN
+
+### 3.1 High-Level Architecture
+
+The system utilizes a 3-tier decoupling model deployed serverlessly on Vercel:
+
 ```mermaid
 graph TD
-    Client["📱 Client Browser (React + Vite SPA)"]
-    Vercel["⚡ Vercel Edge Serverless Function (Express API)"]
-    Atlas[("🍃 MongoDB Atlas Cloud Database")]
+    Client["📱 Client Layer (React 19 + Vite SPA)"]
+    Vercel["⚡ Application Layer (Express API / Vercel Serverless Function)"]
+    Atlas[("🍃 Data Layer (MongoDB Atlas Managed Cluster)")]
 
-    Client -->|HTTP / JSON Requests| Vercel
+    Client -->|HTTPS / REST API Calls (JSON)| Vercel
     Vercel -->|Mongoose ODM Connection| Atlas
     Atlas -->|Encrypted BSON Documents| Vercel
-    Vercel -->|JSON API Response + JWT| Client
+    Vercel -->|Signed JWT + Status Response| Client
 ```
 
-### 📊 Entity-Relationship (ER) Diagram
+### 3.2 Entity-Relationship (ER) Diagram
+
 ```mermaid
 erDiagram
-    USER ||--o{ COMPLAINT : "creates"
+    USER ||--o{ COMPLAINT : "submits / creates"
     USER ||--o{ COMPLAINT : "assigned to (Agent)"
-    USER ||--o{ FEEDBACK : "submits"
+    USER ||--o{ FEEDBACK : "authors"
     COMPLAINT ||--o{ MESSAGES : "contains"
-    COMPLAINT ||--o| FEEDBACK : "has"
+    COMPLAINT ||--o| FEEDBACK : "receives"
 
     USER {
         ObjectId _id PK
         string name
         string email
-        string password
+        string password "Hashed bcrypt"
         enum role "USER | AGENT | ADMIN"
         string phone
         boolean isActive
@@ -83,235 +123,176 @@ erDiagram
     }
 ```
 
-### ✨ Key System Features
-1. **Logo Splash Screen**: 2-second animated brand intro before navigating to Login.
-2. **Role-Based Access Control (RBAC)**: Distinct permissions for User, Agent, and Admin roles.
-3. **Real-time Ticket Tracking**: Visual progress badges (`Pending` ➔ `Assigned` ➔ `In Progress` ➔ `Resolved`).
-4. **Interactive Messaging System**: In-ticket conversation thread between Complaint Creator and Assigned Agent.
-5. **Customer Feedback & Ratings**: Star-rating and review portal upon complaint resolution.
-6. **Admin Analytics Dashboard**: Statistical chart breakdowns by category, priority, and resolution rate.
+### 3.3 Model-View-Controller (MVC) Pattern
 
-### 👥 Roles & Responsibilities
+| Layer | Component Location | Description |
+| --- | --- | --- |
+| **Model** | `server/models/` | Defines Mongoose schemas (`User.js`, `Complaint.js`, `Feedback.js`), data validation constraints, pre-save hooks, and methods. |
+| **View** | `client/src/` | React JSX components rendering responsive UI views (`LoginPage.jsx`, `UserDashboard.jsx`, `AgentDashboard.jsx`, `AdminDashboard.jsx`). |
+| **Controller** | `server/controllers/` | Processes incoming HTTP requests, handles business logic, database mutations, error propagation, and JSON formatting (`authController.js`, `complaintController.js`). |
 
-#### 1. 👤 End User
-- Register account and log in.
-- Submit structured complaints with Category, Priority, and Description.
-- Track real-time resolution status of complaints.
-- Send messages directly to assigned support agent.
-- Submit post-resolution rating (1-5 stars) and feedback.
+---
 
-#### 2. 🎧 Support Agent
-- Access designated Agent Dashboard queue.
-- Pick up unassigned tickets or work on assigned complaints.
-- Change ticket status (`In Progress`, `Resolved`, `Closed`).
-- Send progress updates to user via ticket message thread.
+## 4. ROLES & RESPONSIBILITY MATRIX
 
-#### 3. 🛡️ System Admin
-- Monitor complete system metrics and total ticket counts.
-- Manage user roles, activate or deactivate accounts.
-- View resolution performance analytics and category breakdowns.
-- Re-assign tickets to support agents.
+| Feature / Action | 👤 End User | 🎧 Support Agent | 🛡️ Administrator |
+| --- | :---: | :---: | :---: |
+| Account Registration & Self Login | ✅ | ✅ | ✅ |
+| Submit New Complaint Ticket | ✅ | ❌ | ❌ |
+| Track Own Ticket Status & Messaging | ✅ | ❌ | ❌ |
+| Submit Post-Resolution Feedback & Star Rating | ✅ | ❌ | ❌ |
+| Access Agent Queue & Claim Unassigned Tickets | ❌ | ✅ | ✅ |
+| Update Ticket Status (`In Progress` / `Resolved`) | ❌ | ✅ | ✅ |
+| Send Messages in Ticket Thread | ✅ | ✅ | ✅ |
+| System-Wide Analytics & Metrics Dashboard | ❌ | ❌ | ✅ |
+| Manage User Roles & Deactivate Accounts | ❌ | ❌ | ✅ |
 
-### 🔄 User Flow Diagram
+---
+
+## 5. USER FLOW & OPERATIONAL SEQUENCES
+
 ```mermaid
 sequenceDiagram
     autonumber
     actor U as User / Client
-    participant F as React Frontend (Vite)
-    participant B as Express API (Vercel)
+    participant F as React SPA (Vite)
+    participant B as Express API Server
     participant DB as MongoDB Atlas
 
-    U->>F: Opens Web Application
-    F->>F: Displays 2-Second Logo Splash Screen
-    F->>U: Redirects to /login
-    U->>F: Submits Credentials (user@demo.com / user123)
+    U->>F: Accesses Application URL (/)
+    F->>F: Displays 2-Second Logo Splash Screen (🎯)
+    F->>U: Redirects to Sign In Screen (/login)
+    U->>F: Enters Credentials & Clicks Sign In
     F->>B: POST /api/auth/login
-    B->>DB: Query User Document
-    DB-->>B: User Record & Hashed Password
-    B->>B: Verify Password (bcrypt) & Sign JWT
-    B-->>F: HTTP 200 (Token & User Profile)
-    F->>F: Save JWT in localStorage
-    F->>U: Redirect to Role Dashboard (/dashboard)
+    B->>DB: Query User Profile by Email
+    DB-->>B: User Record + Hashed Password
+    B->>B: Verify Password via bcrypt & Sign JWT
+    B-->>F: HTTP 200 OK (Token & User Payload)
+    F->>F: Store JWT in localStorage
+    F->>U: Navigate to Role Dashboard (/dashboard)
 ```
-
-### 🧩 Model-View-Controller (MVC) Pattern Explanation
-ComplaintHub strictly follows the industry-standard **MVC Architecture**:
-
-- **Model (`server/models/`)**: Defines the data schema using Mongoose. Encapsulates business logic, indexes, validation rules, and password hashing (`User.js`, `Complaint.js`, `Feedback.js`).
-- **View (`client/src/pages/` & `components/`)**: Renders interactive user interfaces using React JSX components, Bootstrap 5, and responsive Tailwind-style CSS tokens.
-- **Controller (`server/controllers/`)**: Acts as the intermediary glue. Receives HTTP requests from Express router, processes business logic, interacts with Mongoose Models, and returns structured JSON responses (`authController.js`, `complaintController.js`, `adminController.js`, `feedbackController.js`).
 
 ---
 
-## 2. 📁 Project Folder Structure
+## 6. FOLDER STRUCTURE & CODEBASE LAYOUT
 
 ```
 SkillWallet/
 ├── api/
-│   └── index.js                 # Vercel Serverless Function entry point (Express app wrapper)
-├── client/                      # React SPA Frontend (Vite)
+│   └── index.js                 # Serverless Handler for Vercel Functions
+├── client/                      # React SPA Frontend
 │   ├── public/
 │   │   ├── favicon.ico
-│   │   └── _redirects           # Netlify & SPA client-side routing rules
+│   │   └── _redirects           # Client Routing Redirects
 │   ├── src/
-│   │   ├── api/
-│   │   │   ├── axios.js         # Axios interceptor with JWT auto-attachment
-│   │   │   ├── authService.js   # Auth API calls
-│   │   │   └── complaintService.js # Complaint API calls
-│   │   ├── components/
-│   │   │   ├── Navbar.jsx       # Global responsive Navigation Bar
-│   │   │   ├── ProtectedRoute.jsx # RBAC Route Guard
-│   │   │   └── SplashScreen.jsx # 2-second Animated Logo Splash Screen
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx  # Global React State for User & JWT Session
-│   │   ├── pages/
-│   │   │   ├── Admin/           # Admin Dashboard, Users, Analytics
-│   │   │   ├── Agent/           # Agent Ticket Queue Dashboard
-│   │   │   ├── Auth/            # LoginPage (with Logo Header), RegisterPage
-│   │   │   ├── User/            # User Dashboard, New Complaint, Detail View
-│   │   │   └── FeedbackPage.jsx # Star Rating & Review Page
-│   │   ├── App.jsx              # Main Route Switcher
-│   │   ├── index.css            # Dark/Light Design Token Stylesheet
-│   │   └── main.jsx             # React DOM Entrypoint
-│   ├── index.html
-│   ├── vite.config.js           # Vite build & proxy settings
+│   │   ├── api/                 # Axios HTTP Services & JWT Interceptor
+│   │   ├── components/          # Navbar, ProtectedRoute, SplashScreen
+│   │   ├── context/             # AuthContext Global State Provider
+│   │   ├── pages/               # Auth, User, Agent, Admin Pages
+│   │   ├── App.jsx              # Main Route Definitions
+│   │   └── index.css            # Custom CSS Token Styling
+│   ├── vite.config.js           # Vite Configuration
 │   └── package.json
-├── server/                      # Node.js Express Backend Engine
-│   ├── config/
-│   │   └── db.js                # MongoDB Mongoose connection handler
-│   ├── controllers/             # Business Logic Controllers
-│   │   ├── adminController.js
-│   │   ├── agentController.js
-│   │   ├── authController.js
-│   │   ├── complaintController.js
-│   │   └── feedbackController.js
-│   ├── middleware/              # Express Middlewares
-│   │   ├── auth.js              # JWT Verification & Role Authorization
-│   │   └── errorHandler.js      # Global Error Middleware
+├── server/                      # Express Backend Engine
+│   ├── config/                  # Database Connection (db.js)
+│   ├── controllers/             # Auth, Complaint, Agent, Admin Controllers
+│   ├── middleware/              # JWT Protect & Global Error Handlers
 │   ├── models/                  # Mongoose Schemas (User, Complaint, Feedback)
 │   ├── routes/                  # Express API Endpoints
-│   ├── seed.js                  # Database seeder script for demo users
-│   ├── server.js                # Express app initialization
-│   ├── startWithMemoryDB.js     # In-memory MongoDB runner for local testing
-│   └── package.json
-├── package.json                 # Root Vercel Serverless dependency manifest
-├── vercel.json                  # Single Vercel Full-Stack deployment rewrites
-└── README.md                    # System Documentation
+│   ├── seed.js                  # Database Seeder
+│   └── server.js                # Express Application Setup
+├── package.json                 # Project Root Dependency Manifest
+├── vercel.json                  # Vercel Production Rewrites Configuration
+└── README.md                    # Project Documentation
 ```
 
 ---
 
-## 3. ⚙️ Backend Server & Database Setup
+## 7. BACKEND SERVER & SECURITY IMPLEMENTATION
 
-### 🔧 Tech Stack
-- **Runtime**: Node.js v24+
-- **Framework**: Express.js
-- **Database**: MongoDB Atlas (Cloud)
-- **ODM**: Mongoose 9.x
-- **Authentication**: JSON Web Tokens (JWT) & bcryptjs
-- **Validation**: express-validator
-
-### 🚀 Running Backend Locally
-
-1. Navigate to the `server/` directory:
-   ```bash
-   cd server
-   npm install
-   ```
-
-2. Configure environment variables in `server/.env`:
-   ```env
-   PORT=5000
-   NODE_ENV=development
-   MONGO_URI=mongodb+srv://sooryaprakashrnp_db_user:FioUFZeRNcOJmxqv@crcluster0.qsjbkzj.mongodb.net/complaint_db?appName=CRCluster0&retryWrites=true&w=majority
-   JWT_SECRET=complaint_system_jwt_secret_key_2024
-   JWT_EXPIRE=7d
-   ```
-
-3. Start server with In-Memory MongoDB (Local Testing):
-   ```bash
-   npm run dev
-   ```
-
-4. Seed MongoDB Database:
-   ```bash
-   node seed.js
-   ```
+- **Authentication Protocol**: Stateless JSON Web Tokens (JWT) passed via `Authorization: Bearer <TOKEN>` header.
+- **Password Security**: Passwords are pre-hashed using `bcryptjs` with salt rounds = 10 prior to document persistence.
+- **Request Hardening**: `helmet` middleware applied for HTTP header security alongside strict CORS origin handling.
+- **Error Middleware**: Centralized error interceptor converts internal exceptions into structured JSON responses.
 
 ---
 
-## 4. 🗄️ Database Development & Schema Design
+## 8. DATABASE SCHEMA & DATA MODEL
 
-### 1. `User` Schema
-- **`email`**: Unique, lowercase string with regex validation.
-- **`password`**: Select `false` by default, hashed via `bcryptjs` in Mongoose `pre('save')` hook.
-- **`role`**: Enum `['USER', 'AGENT', 'ADMIN']`.
+### 1. `User` Collection Schema
+```javascript
+{
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true, select: false },
+  role: { type: String, enum: ['USER', 'AGENT', 'ADMIN'], default: 'USER' },
+  phone: { type: String },
+  isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now }
+}
+```
 
-### 2. `Complaint` Schema
-- **`title` & `description`**: Structured complaint text.
-- **`category`**: `['Hardware', 'Software', 'Network', 'Billing', 'Service', 'Other']`.
-- **`priority`**: `['LOW', 'MEDIUM', 'HIGH']`.
-- **`status`**: `['Pending', 'Assigned', 'In Progress', 'Resolved', 'Closed']`.
-- **`createdBy`**: Ref to `User`.
-- **`assignedAgent`**: Ref to `User` (Agent).
-- **`messages`**: Array of message objects for ticket chat.
+### 2. `Complaint` Collection Schema
+```javascript
+{
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, enum: ['Hardware', 'Software', 'Network', 'Billing', 'Service', 'Other'], required: true },
+  priority: { type: String, enum: ['LOW', 'MEDIUM', 'HIGH'], default: 'MEDIUM' },
+  status: { type: String, enum: ['Pending', 'Assigned', 'In Progress', 'Resolved', 'Closed'], default: 'Pending' },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  assignedAgent: { type: Schema.Types.ObjectId, ref: 'User' },
+  resolvedAt: { type: Date },
+  messages: [{
+    sender: { type: Schema.Types.ObjectId, ref: 'User' },
+    message: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  }],
+  createdAt: { type: Date, default: Date.now }
+}
+```
 
-### 3. `Feedback` Schema
-- **`complaintId`**: Ref to `Complaint`.
-- **`rating`**: Number `(1 to 5)`.
-- **`comment`**: Feedback text.
-
----
-
-## 5. 🎨 Frontend Development
-
-### 🛠️ Tech Stack
-- **Framework**: React 19 (Vite 8)
-- **Routing**: React Router DOM v7
-- **Styling**: Custom CSS Token Palette + Bootstrap 5
-- **Icons & Visuals**: UTF-8 Emojis + Chart.js
-- **Notifications**: React Toastify
-
-### 🚀 Running Frontend Locally
-
-1. Navigate to `client/`:
-   ```bash
-   cd client
-   npm install
-   ```
-
-2. Configure `client/.env`:
-   ```env
-   VITE_API_URL=/api
-   ```
-
-3. Start Vite Dev Server:
-   ```bash
-   npm run dev
-   ```
-   Open `http://localhost:5173` in your browser.
+### 3. `Feedback` Collection Schema
+```javascript
+{
+  complaintId: { type: Schema.Types.ObjectId, ref: 'Complaint', required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  rating: { type: Number, min: 1, max: 5, required: true },
+  comment: { type: String },
+  createdAt: { type: Date, default: Date.now }
+}
+```
 
 ---
 
-## 6. 🚀 Project Extensions & Future Roadmap
+## 9. FRONTEND DESIGN SYSTEM & UX FEATURES
 
-Here are planned future capabilities to further scale the ComplaintHub platform:
-
-- [ ] **AI-Powered Auto Categorization**: Use Gemini Flash API to automatically analyze complaint text and assign category/priority.
-- [ ] **Real-time Push Notifications**: WebSockets (Socket.io) for instant alert sounds when an agent replies.
-- [ ] **File & Image Attachments**: AWS S3 or Cloudinary integration for uploading screenshots of issue tickets.
-- [ ] **SLA Breach Alerts**: Automatic email notifications via Nodemailer when a `HIGH` priority ticket remains unassigned for > 2 hours.
-- [ ] **Multi-Language Support (i18n)**: Support for English, Tamil, and Spanish UI localization.
+- **Animated Splash Screen**: Features a 2-second glowing brand badge (🎯) intro transition upon application entry.
+- **Login Brand Header**: Custom brand logo embedded directly into the authentication card.
+- **Responsive Layout**: Designed with custom CSS variables, glassmorphic card elements, and Bootstrap 5 grid utilities.
+- **Visual Feedback**: Toast notifications via `react-toastify` for user feedback on all API actions.
 
 ---
 
-## 7. 🌐 Live Production Deployment Summary
+## 10. FUTURE SYSTEM ENHANCEMENTS & EXTENSION ROADMAP
 
-ComplaintHub is deployed **100% as a unified full-stack application on Vercel**:
-
-- **Production App Link**: [https://online-complaint-register-six.vercel.app](https://online-complaint-register-six.vercel.app)
-- **Vercel Serverless API Handler**: `api/index.js`
-- **SPA Rewrite Rule**: `vercel.json` rewrites all non-API paths to `dist/index.html`.
+1. **AI Automated Categorization**: Integration of Google Gemini AI Flash API to automatically parse ticket descriptions and auto-assign Category and Priority.
+2. **Real-Time Push Notifications**: WebSockets (Socket.io) for live ticket update badges without manual refreshing.
+3. **Multi-Media File Uploads**: Attachment support (images, logs) via Cloudinary or AWS S3.
+4. **SLA Breach Monitoring**: Automated background cron triggers to flag unassigned tickets older than 2 hours.
 
 ---
-*Created & Maintained by Soorya Prakash for ComplaintHub System.*
+
+## 11. VERIFICATION & DEMONSTRATION LINKS
+
+### **Live Platform Access**
+- **Production URL**: [https://online-complaint-register-six.vercel.app](https://online-complaint-register-six.vercel.app)
+- **Source Code Repository**: [https://github.com/sooryaprakashrnp-wq/online-complaint-register](https://github.com/sooryaprakashrnp-wq/online-complaint-register)
+
+### **Pre-configured Testing Credentials**
+- **Admin Role**: `admin@demo.com` | Password: `admin123`
+- **Agent Role**: `agent@demo.com` | Password: `agent123`
+- **User Role**: `user@demo.com` | Password: `user123`
+
+---
+*Report Compiled for ComplaintHub Enterprise Deployment.*
